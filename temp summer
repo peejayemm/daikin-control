@@ -33,7 +33,7 @@ action:
                 after: '05:00:00'
                 before: '21:00:00'
               - condition: template
-                value_template: '{{ states(''sensor.home_temperature'')| float <= 67}}'
+                value_template: '{{ states(''sensor.home_temperature'') | float <= 67}}'
         sequence:
           - service: climate.set_temperature
             data:
