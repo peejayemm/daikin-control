@@ -23,7 +23,7 @@ action:
             conditions:
               - condition: time
                 after: '05:00:00'
-                before: '07:00:00'
+                before: '21:00:00'
               - condition: template
                 value_template: '{{ states(''sensor.home_temperature'') | float >= 68}}'
         sequence:
@@ -36,50 +36,16 @@ action:
             conditions:
               - condition: time
                 after: '05:00:00'
-                before: '07:00:00'
+                before: '21:00:00'
               - condition: template
                 value_template: '{{ states(''sensor.home_temperature'') | float <= 67}}'
         sequence:
           - service: climate.set_temperature
             data:
               temperature: 75
-            entity_id: 'climate.daikin_lr,climate.daikin_kitchen'
- - conditions:
-          - condition: and
-            conditions:
-              - condition: time
-                after: '17:00:00'
-                before: '21:00:00'
-              - condition: template
-                value_template: '{{ states(''sensor.home_temperature'') | float >= 68}}'
-        sequence:
-          - service: climate.set_temperature
-            data:
-              temperature: 55
             entity_id: 'climate.daikin_lr,climate.daikin_kitchen'
       - conditions:
-          - condition: and
-            conditions:
-              - condition: time
-                after: '17:00:00'
-                before: '21:00:00'
-              - condition: template
-                value_template: '{{ states(''sensor.home_temperature'') | float <= 67}}'
-        sequence:
-          - service: climate.set_temperature
-            data:
-              temperature: 75
-            entity_id: 'climate.daikin_lr,climate.daikin_kitchen'
-            - conditions:
-        - condition: time
-            after: '07:01:00'
-            before: '07:02:00'
-        sequence:
-          - service: climate.set_temperature
-            data:
-              temperature: 60
-            entity_id: 'climate.daikin_lr,climate.daikin_kitchen'
-            - condition: time
+          - condition: time
             after: '21:01:00'
             before: '21:02:00'
         sequence:
@@ -87,18 +53,7 @@ action:
             data:
               temperature: 60
             entity_id: 'climate.daikin_lr,climate.daikin_kitchen'
- condition:
-  - condition: device
-    device_id: f23432c71c65547b39963155a9ae8432
-    domain: device_tracker
-    entity_id: device_tracker.pixel_4a_5g
-    type: is_not_home
-    sequence:
-        - service: climate.set_temperature
-          data:
-            temperature: 60
-            entity_id: 'climate.daikin_lr,climate.daikin_kitchen'
-    - conditions:
+      - conditions:
           - condition: time
             after: '04:59:00'
             before: '05:00:00'
