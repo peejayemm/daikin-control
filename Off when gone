@@ -1,0 +1,15 @@
+alias: Heat Low When Gone
+description: ''
+mode: single
+trigger:
+  - platform: device
+    device_id: f23432c71c65547b39963155a9ae8432
+    domain: device_tracker
+    entity_id: device_tracker.pixel_4a_5g
+    type: leaves
+    zone: zone.home
+sequence:
+  - service: climate.set_temperature
+    data:
+    temperature: 55
+    entity_id: 'climate.daikin_lr,climate.daikin_kitchen'
