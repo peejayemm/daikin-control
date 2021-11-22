@@ -1,0 +1,63 @@
+alias: Daikin Heat Control
+description: ''
+trigger:
+  - platform: state
+    entity_id: sensor.ecobee_thermostat_temperature
+  - platform: time
+    at: '21:01:30'
+  - platform: time
+    at: '04:59:30'
+  - platform: time_pattern
+    minutes: /5
+action:
+  - choose:
+      - conditions:
+          - condition: and
+            conditions:
+              - condition: time
+                after: '05:00:00'
+                before: '21:00:00'
+              - condition: template
+                value_template: >-
+                  {{ states('sensor.ecobee_thermostat_temperature') | float >=
+                  68.5}}
+        sequence:
+          - service: climate.set_temperature
+            data:
+              temperature: 55
+            entity_id: climate.daikin_lr,climate.daikin_kitchen
+      - conditions:
+          - condition: and
+            conditions:
+              - condition: time
+                after: '05:00:00'
+                before: '21:00:00'
+              - condition: template
+                value_template: >-
+                  {{ states('sensor.ecobee_thermostat_temperature') | float <=
+                  67.0}}
+        sequence:
+          - service: climate.set_temperature
+            data:
+              temperature: 75
+            entity_id: climate.daikin_lr,climate.daikin_kitchen
+      - conditions:
+          - condition: time
+            after: '21:01:00'
+            before: '21:02:00'
+        sequence:
+          - service: climate.set_temperature
+            data:
+              temperature: 58
+            entity_id: climate.daikin_lr,climate.daikin_kitchen
+      - conditions:
+          - condition: time
+            after: '04:59:00'
+            before: '05:00:00'
+        sequence:
+          - service: climate.set_hvac_mode
+            data:
+              hvac_mode: heat
+            entity_id: climate.daikin_lr,climate.daikin_kitchen
+    default: []
+mode: single
