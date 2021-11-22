@@ -9,6 +9,7 @@ trigger:
     at: '04:59:30'
   - platform: time_pattern
     minutes: /5
+condition: []
 action:
   - choose:
       - conditions:
